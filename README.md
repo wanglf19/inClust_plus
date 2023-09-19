@@ -33,6 +33,12 @@ This repository contains the official Keras implementation of:
 python input_preparation.py --task=imputation_between_2_modal --inputdata1=data/training_data/merfish_scRNA_inputdata1.npz --inputdata2=data/training_data/merfish_Merfish_inputdata2.npz --input_covariates=data/training_data/merfish_input_covariates.npy --input_cell_types=data/training_data/merfish_input_cell_types.npy --num_covariates=2 --num_cell_types=13 --imputation_index=data/training_data/merfish_imputation_index.npy
 ```
 
+- *task -- integration_data_with_triple_modality*
+
+```
+python input_preparation.py --task=integration_data_with_triple_modality --inputdata1=data/data_input_preparation/integration_input1.npz --inputdata2=data/data_input_preparation/integration_input2.npz --inputdata3=data/data_input_preparation/integration_input3.npz --inputdata4=data/data_input_preparation/integration_input4.npz --input_covariates=data/data_input_preparation/integration_batch.npy --input_cell_types=data/data_input_preparation/integration_label.npy --num_covariates=2 --num_cell_types=7
+```
+
 **2. inClust+**
 
 - *About this article*

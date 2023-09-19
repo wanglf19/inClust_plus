@@ -216,31 +216,36 @@ if task == 'integration_data_with_triple_modality':
         print('The elements in dataset1 and dataset2 must be aligned.')
         exit()
 
-    psudo_inputdata5 = np.zeros((inputdata1.shape[0],inputdata3.shape[1]))
+    psudo_inputdata5 = np.zeros((inputdata1.shape[0],inputdata4.shape[1]))
     psudo_inputdata6 = np.zeros((inputdata3.shape[0], inputdata1.shape[1]))
-    mask_1_1 = np.vstack((np.ones_like(inputdata1),np.zeros_like(inputdata2),np.zeros_like(psudo_inputdata5)))
-    mask_1_2 = np.vstack((np.zeros_like(inputdata1), np.ones_like(inputdata2), np.zeros_like(psudo_inputdata5)))
-    mask_2_1 = np.vstack((np.zeros_like(psudo_inputdata6), np.ones_like(inputdata3), np.zeros_like(inputdata4)))
-    mask_2_2 = np.vstack((np.zeros_like(psudo_inputdata6), np.zeros_like(inputdata3), np.ones_like(inputdata4)))
-    data_1 = np.vstack((inputdata1,inputdata2,psudo_inputdata5))
-    data_2 = np.vstack((psudo_inputdata6,inputdata3,inputdata4))
+    #print(inputdata1.shape,inputdata2.shape,inputdata3.shape,inputdata4.shape,psudo_inputdata5.shape,psudo_inputdata6.shape)
 
-    data = np.hstack((data_1, data_1, data_2, data_2, data_1, data_2))
-    input_mask_data = np.hstack((mask_1_1, mask_1_2, mask_2_1,mask_2_2,mask_1_2,mask_2_1))
-    output_mask_data = np.hstack((mask_1_1, mask_1_2, mask_2_1,mask_2_2,mask_1_1,mask_2_2))
+    mask_1_1 = np.hstack((np.ones_like(inputdata1),np.zeros_like(inputdata2),np.zeros_like(psudo_inputdata5)))
+    mask_1_2 = np.hstack((np.zeros_like(inputdata1), np.ones_like(inputdata2), np.zeros_like(psudo_inputdata5)))
+    mask_2_1 = np.hstack((np.zeros_like(psudo_inputdata6), np.ones_like(inputdata3), np.zeros_like(inputdata4)))
+    mask_2_2 = np.hstack((np.zeros_like(psudo_inputdata6), np.zeros_like(inputdata3), np.ones_like(inputdata4)))
+    data_1 = np.hstack((inputdata1,inputdata2,psudo_inputdata5))
+    data_2 = np.hstack((psudo_inputdata6,inputdata3,inputdata4))
+
+    data = np.vstack((data_1, data_1, data_2, data_2, data_1, data_2))
+    input_mask_data = np.vstack((mask_1_1, mask_1_2, mask_2_1,mask_2_2,mask_1_2,mask_2_1))
+    output_mask_data = np.vstack((mask_1_1, mask_1_2, mask_2_1,mask_2_2,mask_1_1,mask_2_2))
+
     input_covariates1 = input_covariates[0:inputdata1.shape[0]]
-    input_covariates2 = input_covariates[inputdata1.shape[0]:-1]
+    input_covariates2 = input_covariates[inputdata1.shape[0]:input_covariates.shape[0]]
     input_cell_types1 = input_cell_types[0:inputdata1.shape[0]]
-    input_cell_types2 = input_cell_types[inputdata1.shape[0]:-1]
+    input_cell_types2 = input_cell_types[inputdata1.shape[0]:input_cell_types.shape[0]]
+    #print(input_covariates1.shape,input_covariates2.shape)
     input_covariates = np.hstack((input_covariates1, input_covariates1, input_covariates2, input_covariates2,input_covariates1,input_covariates2))
     input_cell_types = np.hstack((input_cell_types1, input_cell_types1, input_cell_types2, input_cell_types2,input_cell_types1,input_cell_types2))
+
+    #print(data.shape,input_mask_data.shape,output_mask_data.shape,input_covariates.shape,input_cell_types.shape)
     sparse.save_npz('results/integration_input_data.npz', sparse.csr_matrix(data))
     sparse.save_npz('results/integration_input_mask.npz', sparse.csr_matrix(input_mask_data))
     sparse.save_npz('results/integration_output_mask.npz', sparse.csr_matrix(output_mask_data))
     np.save('results/integration_input_covariates.npy', to_categorical(input_covariates, num_covariates))
     np.save('results/integration_input_cell_types.npy', to_categorical(input_cell_types, num_cell_types))
     exit()
-
 
 if task == 'cross_modal_generation':
     inputdata1 = args.inputdata1
