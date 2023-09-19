@@ -263,7 +263,7 @@ if task == 'cross_modal_generation':
     inputdata3 = args.inputdata3
     if inputdata3[-3:] == 'npz':
         inputdata3 = sparse.load_npz(args.inputdata3)
-        inputdata3 = inputdata2.todense()
+        inputdata3 = inputdata3.todense()
     else:
         inputdata3 = np.load(args.inputdata3)
 
@@ -274,32 +274,36 @@ if task == 'cross_modal_generation':
         print('The genes must be aligned.')
         exit()
 
-    data = np.vstack((inputdata1, inputdata2))
-    data_impute = np.vstack((inputdata3, np.zeros((inputdata3.shape[0],inputdata2.shape[1]))))
+    data = np.hstack((inputdata1, inputdata2))
+    data_impute = np.hstack((inputdata3, np.zeros((inputdata3.shape[0],inputdata2.shape[1]))))
     mask_data1_1 = np.ones_like(inputdata1)
     mask_data2_1 = np.ones_like(inputdata2)
     mask_data1_0 = np.zeros_like(inputdata1)
     mask_data2_0 = np.zeros_like(inputdata2)
-    mask_data1_1_mask_data2_0 = np.vstack((mask_data1_1,mask_data2_0))
-    mask_data1_0_mask_data2_1 = np.vstack((mask_data1_0,mask_data2_1))
-    mask_impute = np.vstack((np.ones_like(inputdata3), np.zeros((inputdata3.shape[0],inputdata2.shape[1]))))
+    mask_data1_1_mask_data2_0 = np.hstack((mask_data1_1,mask_data2_0))
+    mask_data1_0_mask_data2_1 = np.hstack((mask_data1_0,mask_data2_1))
+    mask_impute = np.hstack((np.ones_like(inputdata3), np.zeros((inputdata3.shape[0],inputdata2.shape[1]))))
 
-    data = np.hstack((data,data,data_impute))
-    input_mask_data = np.hstack(mask_data1_1_mask_data2_0,mask_data1_1_mask_data2_0,mask_impute)
-    output_mask_data = np.hstack(mask_data1_1_mask_data2_0,mask_data1_0_mask_data2_1,mask_impute)
+    data = np.vstack((data,data,data_impute))
+    input_mask_data = np.vstack((mask_data1_1_mask_data2_0,mask_data1_1_mask_data2_0,mask_impute))
+    output_mask_data = np.vstack((mask_data1_1_mask_data2_0,mask_data1_0_mask_data2_1,mask_impute))
+    #print(data.shape,input_mask_data.shape,output_mask_data.shape)
 
-    input_covariates = np.hstack((input_covariates,input_covariates))
+    impute_batch = np.zeros((inputdata3.shape[0]))+2
+    print(impute_batch.shape)
+    print(impute_batch)
+    input_covariates = np.hstack((input_covariates,input_covariates,impute_batch))
     input_cell_types = np.hstack((input_cell_types,input_cell_types))
     input_covariates = to_categorical(input_covariates, num_covariates)
     input_cell_types = to_categorical(input_cell_types, num_cell_types)
-    input_covariates = np.hstack((input_covariates, np.zeros((inputdata3.shape[0],num_covariates))))
-    input_cell_types = np.hstack((input_cell_types, np.zeros((inputdata3.shape[0], num_cell_types))))
+    input_cell_types = np.vstack((input_cell_types, np.zeros((inputdata3.shape[0],num_cell_types))))
+    #print(input_covariates.shape,input_cell_types.shape)
 
-    sparse.save_npz('results/integration_input_data.npz', sparse.csr_matrix(data))
-    sparse.save_npz('results/integration_input_mask.npz', sparse.csr_matrix(input_mask_data))
-    sparse.save_npz('results/integration_output_mask.npz', sparse.csr_matrix(output_mask_data))
-    np.save('results/integration_input_covariates.npy', input_covariates)
-    np.save('results/integration_input_cell_types.npy', input_cell_types)
+    sparse.save_npz('results/generation_input_data.npz', sparse.csr_matrix(data))
+    sparse.save_npz('results/generation_input_mask.npz', sparse.csr_matrix(input_mask_data))
+    sparse.save_npz('results/generation_output_mask.npz', sparse.csr_matrix(output_mask_data))
+    np.save('results/generation_input_covariates.npy', input_covariates)
+    np.save('results/generation_input_cell_types.npy', input_cell_types)
     exit()
 
 

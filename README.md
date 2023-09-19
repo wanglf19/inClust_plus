@@ -11,6 +11,7 @@ This repository contains the official Keras implementation of:
 - tensorflow 1.11.0
 
 **1. input_preparation**
+- Design the input_mask and output_mask according to the requirements (tasks). Users could design their own  input_mask and output_mask for their specifc task
 
 - *About this article*
 ```
@@ -19,6 +20,7 @@ This repository contains the official Keras implementation of:
 #'--inputdata1', type=str, default='data/training_data/merfish_scRNA_inputdata1.npz', help='address for input data'
 #'--inputdata2', type=str, default='data/training_data/merfish_Merfish_inputdata2.npz', help='address for input data'
 #'--inputdata3', type=str, default='data/training_data/Fig1_merfish_data.npz', help='address for input data'
+#'--inputdata4', type=str, default='none', help='address for input data'
 #'--inputdata_missing_modal', type=str, default='data/training_data/Fig1_merfish_data.npz', help='address for input data'
 #'--input_covariates', type=str, default='data/training_data/merfish_input_covariates.npy', help='address for covariate (e.g. batch)'
 #'--input_cell_types', type=str, default='data/training_data/merfish_input_cell_types.npy', help='address for celltype label'
@@ -39,7 +41,14 @@ python input_preparation.py --task=imputation_between_2_modal --inputdata1=data/
 python input_preparation.py --task=integration_data_with_triple_modality --inputdata1=data/data_input_preparation/integration_input1.npz --inputdata2=data/data_input_preparation/integration_input2.npz --inputdata3=data/data_input_preparation/integration_input3.npz --inputdata4=data/data_input_preparation/integration_input4.npz --input_covariates=data/data_input_preparation/integration_batch.npy --input_cell_types=data/data_input_preparation/integration_label.npy --num_covariates=2 --num_cell_types=7
 ```
 
+- *task -- cross_modal_generation*
+
+```
+python input_preparation.py --task=cross_modal_generation --inputdata1=data/data_input_preparation/generation_data1.npz --inputdata2=data/data_input_preparation/generation_data2.npz --inputdata3=data/data_input_preparation/generation_data3.npz --input_covariates=data/data_input_preparation/generation_batch.npy --input_cell_types=data/data_input_preparation/generation_label.npy --num_covariates=3 --num_cell_types=30
+```
+
 **2. inClust+**
+- The training of inClust+ for all tasks is the same, just load right inputs generated from previous step.
 
 - *About this article*
 ```
