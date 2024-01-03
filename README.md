@@ -79,6 +79,7 @@ integrate different modalities in two paired data with batch effects
 *1.4 --task = integration_data_with_triple_modality*
 
 integrate two paired data with batch effects and one overlapped modality
+```
 - Inputs:
 - inputdata1: data of modality 1 from paired dataset 1, with shape (#sample1, #feature1)
 - inputdata2: data of modality 2 from paired dataset 1, with shape (#sample1, #feature2)
@@ -86,6 +87,7 @@ integrate two paired data with batch effects and one overlapped modality
 - inputdata4: data of modality 3 from paired dataset 2, with shape (#sample2, #feature3)
 - input_cell_types: the cell type of each sample, with shape (#sample1+#sample2)
 - num_cell_types: the number of total cell types (int)
+```
 
 ```
 python 1_input_preparation.py --task=integration_data_with_triple_modality --inputdata1=data/data_input_preparation/integration_input1.npz --inputdata2=data/data_input_preparation/integration_input2.npz --inputdata3=data/data_input_preparation/integration_input3.npz --inputdata4=data/data_input_preparation/integration_input4.npz --input_cell_types=data/data_input_preparation/integration_label.npy --num_cell_types=7
@@ -94,6 +96,7 @@ python 1_input_preparation.py --task=integration_data_with_triple_modality --inp
 *1.5 --task = cross_modal_generation*
 
 integrate two paired data with batch effects and one overlapped modality
+```
 - Inputs:
 - inputdata1: data of modality 1 from paired dataset 1, with shape (#sample1, #feature1)
 - inputdata2: data of modality 2 from paired dataset 1, with shape (#sample1, #feature2)
@@ -101,6 +104,7 @@ integrate two paired data with batch effects and one overlapped modality
 - input_cell_types: the cell type of each sample, with shape (#sample1+#sample2)
 - num_cell_types: the number of total cell types (int)
 - input_covariates: the batch for inputdata1 and inputdata2
+```
 
 ```
 python 1_input_preparation.py --task=cross_modal_generation --inputdata1=data/data_input_preparation/generation_data1.npz --inputdata2=data/data_input_preparation/generation_data2.npz --inputdata3=data/data_input_preparation/generation_data3.npz --input_covariates=data/data_input_preparation/generation_batch.npy --input_cell_types=data/data_input_preparation/generation_label.npy --num_cell_types=30
