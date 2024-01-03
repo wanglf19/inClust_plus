@@ -34,7 +34,8 @@ This repository contains the official Keras implementation of:
 ```
 
 automatically generation the inputs (e.g. input_mask and output_mask) according to the tasks that user selected.
-*--task = imputation_between_2_modal*
+
+*1.1 --task = imputation_between_2_modal*
 
 use the data from one modality (e.g. scRNA-seq) to impute the data from another modality (e.g. MERFISH).
 ```
@@ -50,7 +51,7 @@ use the data from one modality (e.g. scRNA-seq) to impute the data from another 
 python 1_input_preparation.py --task=imputation_between_2_modal --inputdata1=data/training_data/merfish_scRNA_inputdata1.npz --inputdata2=data/training_data/merfish_Merfish_inputdata2.npz --input_cell_types=data/training_data/merfish_input_cell_types.npy --num_cell_types=13 --imputation_index=data/training_data/merfish_imputation_index.npy
 ```
 
-*--task = integration_paired_data*
+*1.2 --task = integration_paired_data*
 
 integrate different modalities in the paired data
 ```
@@ -61,7 +62,7 @@ integrate different modalities in the paired data
 - num_cell_types: the number of total cell types (int)
 ```
 
-*--task = integration_paired_data_with_batch_effect*
+*1.3 --task = integration_paired_data_with_batch_effect*
 
 integrate different modalities in two paired data with batch effects
 ```
@@ -74,7 +75,7 @@ integrate different modalities in two paired data with batch effects
 - num_cell_types: the number of total cell types (int)
 ```
 
-*--task = integration_data_with_triple_modality*
+*1.4 --task = integration_data_with_triple_modality*
 
 integrate two paired data with batch effects and one overlapped modality
 - Inputs:
@@ -89,7 +90,7 @@ integrate two paired data with batch effects and one overlapped modality
 python 1_input_preparation.py --task=integration_data_with_triple_modality --inputdata1=data/data_input_preparation/integration_input1.npz --inputdata2=data/data_input_preparation/integration_input2.npz --inputdata3=data/data_input_preparation/integration_input3.npz --inputdata4=data/data_input_preparation/integration_input4.npz --input_cell_types=data/data_input_preparation/integration_label.npy --num_cell_types=7
 ```
 
-*--task = cross_modal_generation*
+*1.5 --task = cross_modal_generation*
 
 integrate two paired data with batch effects and one overlapped modality
 - Inputs:
