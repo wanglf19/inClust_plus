@@ -15,6 +15,8 @@ This repository contains the official Keras implementation of:
 - Step 2. train inClust+ using the inputs generated in previous step
 - Step 3. get results after training
 
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 **Step 1. input_preparation**
 - Design the input_mask and output_mask according to the requirements (tasks). Users could design their own  input_mask and output_mask for their specifc task
 
@@ -105,6 +107,8 @@ integrate two paired data with batch effects and one overlapped modality
 python 1_input_preparation.py --task=cross_modal_generation --inputdata1=data/data_input_preparation/generation_data1.npz --inputdata2=data/data_input_preparation/generation_data2.npz --inputdata3=data/data_input_preparation/generation_data3.npz --input_covariates=data/data_input_preparation/generation_batch.npy --input_cell_types=data/data_input_preparation/generation_label.npy --num_cell_types=30
 ```
 
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 **Step 2. inClust+ training**
 - The training of inClust+ for all tasks is the same, just load right inputs generated from previous step.
 
@@ -143,6 +147,7 @@ python 2_inClust+.py --last_activation=sigmoid --inputdata=data/training_data/im
 ```
 
 
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 **Step 3. Get results**
 - *3.1 Get results from inClust+*
 
@@ -154,6 +159,8 @@ python 2_inClust+.py --last_activation=sigmoid --inputdata=data/training_data/im
 python 3_Get_results.py --task=imputation_between_2_modal --Low_rank_vector=data/results/Low_dimnesion_vector.npy --Reconstruction=data/results/reconstruction.npy --imputation_index=data/training_data/merfish_imputation_index.npy
 ```
 
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 **Examples**
 - example_1_cross_modal_imputation.ipynb
 - example_2_cross_modal_integration.ipynb
