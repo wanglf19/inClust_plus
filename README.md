@@ -166,6 +166,16 @@ python 3_Get_results.py --task=imputation_between_2_modal --Low_rank_vector=data
 - example_2_cross_modal_integration.ipynb
 - example_3_cross_modal_generation.ipynb
 
+
+**Data conversion from scanpy**
+
+Just save the expression data, cell type information and batch information to corresponding file
+```
+np.save('inputdata.npy',adata.X)
+np.save('inputcelltype.npy',adata.obs['cell_type'])
+np.save('input_covariates.npy',adata.obs['domain_id'])
+```
+
 **VAE and its variant implementation**
 https://github.com/bojone/vae
 
