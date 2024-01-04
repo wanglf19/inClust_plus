@@ -49,7 +49,7 @@ use the data from one modality (e.g. scRNA-seq) to impute the data from another 
 ```
 
 ```
-python 1_input_preparation.py --task=imputation_between_2_modal --inputdata1=data/training_data/merfish_scRNA_inputdata1.npz --inputdata2=data/training_data/merfish_Merfish_inputdata2.npz --input_cell_types=data/training_data/merfish_input_cell_types.npy --num_cell_types=13 --imputation_index=data/training_data/merfish_imputation_index.npy
+python 1_input_preparation.py --task=imputation_between_2_modal --inputdata1=data/data_input_preparation/merfish_scRNA_inputdata1.npz --inputdata2=data/data_input_preparation/merfish_Merfish_inputdata2.npz --input_cell_types=data/data_input_preparation/merfish_input_cell_types.npy --num_cell_types=13 --imputation_index=data/data_input_preparation/merfish_imputation_index.npy
 ```
 
 *1.2 --task = integration_paired_data*
@@ -145,7 +145,7 @@ python 1_input_preparation.py --task=cross_modal_generation --inputdata1=data/da
 ```
 
 ```
-python 2_inClust+.py --last_activation=sigmoid --inputdata=data/training_data/imputation_input_data.npz --input_covariates=data/training_data/imputation_input_covariates.npy --inputcelltype=data/training_data/imputation_input_cell_types.npy --input_mask=data/training_data/imputation_input_mask.npz --output_mask=data/training_data/imputation_output_mask.npz
+python 2_inClust+.py --task=imputation --last_activation=sigmoid --inputdata=data/training_data/imputation_input_data.npz --input_covariates=data/training_data/imputation_input_covariates.npy --inputcelltype=data/training_data/imputation_input_cell_types.npy --input_mask=data/training_data/imputation_input_mask.npz --output_mask=data/training_data/imputation_output_mask.npz
 ```
 
 
@@ -153,11 +153,11 @@ python 2_inClust+.py --last_activation=sigmoid --inputdata=data/training_data/im
 - *3.1 Get results from inClust+*
 
 ```
-python 2_inClust+.py --last_activation=sigmoid --inputdata=data/training_data/imputation_input_data.npz --input_covariates=data/training_data/imputation_input_covariates.npy --inputcelltype=data/training_data/imputation_input_cell_types.npy --input_mask=data/training_data/imputation_input_mask.npz --output_mask=data/training_data/imputation_output_mask.npz --training=F --weights=results/training.weight
+python 2_inClust+.py --task=imputation --last_activation=sigmoid --inputdata=data/training_data/imputation_input_data.npz --input_covariates=data/training_data/imputation_input_covariates.npy --inputcelltype=data/training_data/imputation_input_cell_types.npy --input_mask=data/training_data/imputation_input_mask.npz --output_mask=data/training_data/imputation_output_mask.npz --training=F --weights=results/training.weight
 ```
 - *3.2 Further analysis*
 ```
-python 3_Get_results.py --task=imputation_between_2_modal --Low_rank_vector=data/results/Low_dimnesion_vector.npy --Reconstruction=data/results/reconstruction.npy --imputation_index=data/training_data/merfish_imputation_index.npy
+python 3_Get_results.py --task=imputation_between_2_modal --Low_rank_vector=results/Low_dimnesion_vector.npy --Reconstruction=results/reconstruction.npy --imputation_index=data/data_input_preparation/merfish_imputation_index.npy
 ```
 
 

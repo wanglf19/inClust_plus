@@ -287,7 +287,7 @@ if Training == 'T':
 vae.load_weights(weights)
 means = K.eval(gaussian.mean)
 
-x_train_encoded, x_low_dimension, y = encoder.predict([data, batch, labels])
+x_train_encoded, x_low_dimension, y = encoder.predict([data, batch, labels,input_mask_data])
 print(x_train_encoded.shape)
 print(y.shape)
 if arithmetic == 'minus':
@@ -297,7 +297,7 @@ else:
 
 #np.save('results/mean_vector.npy', x_train_encoded)
 #np.save('results/batch_vector.npy', y)
-np.save('results/Low_dimnesion_vector.npy', x_low_dimension-y)
+np.save('results/Low_dimension_vector.npy', x_low_dimension-y)
 
 if task == 'imputation':
     impute_index = []
@@ -307,7 +307,7 @@ if task == 'imputation':
 
     x_low_dimension = x_low_dimension[np.asarray(impute_index)]
     output = decoder.predict(x_low_dimension)
-    np.save('results/reconstruction.npy', y_train_pred)
+    np.save('results/reconstruction.npy', output)
 
 if task == 'generation':
     generate_index = []
@@ -317,7 +317,7 @@ if task == 'generation':
 
     x_low_dimension = x_low_dimension[np.asarray(generate_index)]
     output = decoder.predict(x_low_dimension)
-    np.save('results/reconstruction.npy', y_train_pred)
+    np.save('results/reconstruction.npy', output)
 
     predict_x_train_encoded = predict_x_train_encoded[np.asarray(generate_index)]
     y_train_pred = classfier.predict(predict_x_train_encoded).argmax(axis=1)

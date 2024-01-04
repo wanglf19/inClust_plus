@@ -16,30 +16,6 @@ from pandas import DataFrame
 import os, csv, re
 import argparse
 
-print(np.hstack((np.zeros(2),np.ones(3))))
-inputdata2 = sparse.load_npz('data/data_input_preparation/merfish_Merfish_inputdata2.npz')
-inputdata2 = np.asarray(inputdata2.todense())
-print(type(inputdata2))
-merfish_imputation_index = np.load('data/data_input_preparation/merfish_imputation_index.npy')
-print(inputdata2.shape)
-print(merfish_imputation_index.shape)
-print(merfish_imputation_index)
-new_inputdata2 = np.zeros((inputdata2.shape[0],inputdata2.shape[1]-merfish_imputation_index.shape[0]))
-print(new_inputdata2.shape)
-count = 0
-for i in range(inputdata2.shape[1]):
-    if i not in merfish_imputation_index:
-        #print(new_inputdata2[:,count].shape,inputdata2[:,i].shape)
-        new_inputdata2[:,count] = inputdata2[:,i]
-        count = count + 1
-
-print(new_inputdata2.shape)
-
-sparse.save_npz('data/data_input_preparation/merfish_Merfish_inputdata2_part.npz', sparse.csr_matrix(new_inputdata2))
-
-exit()
-
-#'''
 #####################################################################################################################
 parser = argparse.ArgumentParser(description='input_preparation')
 # system config
@@ -78,7 +54,8 @@ if task == 'imputation_between_2_modal':
         inputdata2 = np.load(inputdata2)
     imputation_index = np.load(args.imputation_index)
 
-    if inputdata1.shape[1] != inputdata2.shape[1]+imputation_index:
+    print(inputdata1.shape[1],inputdata2.shape[1],imputation_index.shape[0])
+    if inputdata1.shape[1] != (inputdata2.shape[1]+imputation_index.shape[0]):
         print('The genes in dataset1 and dataset2 must be aligned.')
         exit()
 
@@ -88,7 +65,7 @@ if task == 'imputation_between_2_modal':
     count = 0
     for i in range(inputdata1.shape[1]):
         if i not in imputation_index:
-            full_inputdata2[i,:] = inputdata2[count,:]
+            full_inputdata2[:,i] = inputdata2[:,count]
             count = count + 1
 
     data = np.vstack((inputdata1,np.asarray(full_inputdata2)))
@@ -99,7 +76,7 @@ if task == 'imputation_between_2_modal':
         for j in range(input_mask_data.shape[1]):
             if j in imputation_index:
                 input_mask_data[i, j] = 0
-                if input_covariates[i] == 1:
+                if covariates[i] == 1:
                     output_mask_data[i, j] = 0
 
     sparse.save_npz('results/imputation_input_data.npz',sparse.csr_matrix(data))
